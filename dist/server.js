@@ -39,6 +39,42 @@ app.post('/api/adplist-review', (req, res) => __awaiter(void 0, void 0, void 0, 
         }
     }
 }));
+app.post('/api/senja-testimonial', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { senjaApiKey, adpListReviews } = req.body;
+    try {
+        const results = yield Promise.all(adpListReviews.map((review) => __awaiter(void 0, void 0, void 0, function* () {
+            const testimonialData = {
+                type: "text",
+                title: `Mentorship Call with ${review.mentor.name}`,
+                text: review.review,
+                rating: review.rating,
+                url: review.swag_image_url,
+                date: review.date_reviewed,
+                approved: true,
+                thumbnail_url: "",
+                customer_name: review.reviewed_by.name,
+                customer_company: review.reviewed_by.employer,
+                customer_avatar: review.reviewed_by.profile_photo_url,
+            };
+            const response = yield axios_1.default.post('https://api.senja.io/v1/testimonials', testimonialData, {
+                headers: {
+                    'Authorization': `Bearer ${senjaApiKey}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            return response.data;
+        })));
+        res.json(results);
+    }
+    catch (error) {
+        if (axios_1.default.isAxiosError(error)) {
+            res.status(500).json({ error: error.message });
+        }
+        else {
+            res.status(500).json({ error: 'An unexpected error occurred' });
+        }
+    }
+}));
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

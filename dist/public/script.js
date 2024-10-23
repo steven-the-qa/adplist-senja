@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let userId = '';
-let adpListResponse = null;
+let adpListResponse = [];
 function submitUserId() {
     const userIdInput = document.getElementById('userId');
     userId = userIdInput.value;
@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const senjaForm = document.getElementById('senjaForm');
     const userIdInput = document.getElementById('userId');
     const submitUserIdButton = document.getElementById('submitUserId');
+    const senjaApiKeyInput = document.getElementById('senjaApiKey');
+    const submitSenjaApiKeyButton = document.getElementById('submitSenjaApiKey');
     const successBanner = document.getElementById('successBanner');
     const errorBanner = document.getElementById('errorBanner');
     submitUserIdButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,9 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ userId }),
             });
             if (!response.ok) {
-                throw new Error('Failed to fetch ADPList review');
+                throw new Error('Failed to fetch ADPList reviews');
             }
             adpListResponse = yield response.json();
+            successBanner.textContent = `Successfully fetched ${adpListResponse.length} reviews`;
             successBanner.style.display = 'block';
             userIdForm.style.display = 'none';
             senjaForm.style.display = 'block';
@@ -104,6 +107,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         finally {
             submitUserIdButton.disabled = false;
+        }
+    }));
+    submitSenjaApiKeyButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        const senjaApiKey = senjaApiKeyInput.value.trim();
+        if (!senjaApiKey) {
+            alert('Please enter a Senja API Key');
+            return;
+        }
+        submitSenjaApiKeyButton.disabled = true;
+        successBanner.style.display = 'none';
+        errorBanner.style.display = 'none';
+        try {
+            const response = yield fetch('/api/senja-testimonial', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    senjaApiKey,
+                    adpListReviews: adpListResponse
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to create Senja testimonials');
+            }
+            const results = yield response.json();
+            successBanner.textContent = `Successfully created ${results.length} testimonials`;
+            successBanner.style.display = 'block';
+        }
+        catch (error) {
+            console.error('Error:', error);
+            errorBanner.textContent = 'Failed to create testimonials. Please try again.';
+            errorBanner.style.display = 'block';
+        }
+        finally {
+            submitSenjaApiKeyButton.disabled = false;
         }
     }));
 });

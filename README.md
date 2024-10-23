@@ -2,6 +2,8 @@
 
 This project automates the process of fetching reviews for an ADPList mentor and converting them into testimonials on Senja.
 
+![Screenshot 2024-10-23 at 6 44 45 AM](https://github.com/user-attachments/assets/ac46d941-b8fc-4adc-a345-08bcdc00f8a6)
+
 ## Where to find it
 
 Live site: https://majestic-babka-6bae67.netlify.app/

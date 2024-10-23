@@ -6,7 +6,7 @@ This project automates the process of fetching reviews for an ADPList mentor and
 
 ## Where to find it
 
-Live site: https://majestic-babka-6bae67.netlify.app/
+Live site: https://mentor-proof.netlify.app/
 
 ## How it works
 

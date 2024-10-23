@@ -40,13 +40,13 @@ export const handler: Handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(results)
+      body: JSON.stringify(`Successfully created ${adpListReviews.length} Senja testimonials!`)
     }
   } catch (error) {
     console.error('Error creating testimonials:', error)
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'An error occurred while creating the testimonials' })
+      body: JSON.stringify('An error occurred while creating the testimonials')
     }
   }
 }

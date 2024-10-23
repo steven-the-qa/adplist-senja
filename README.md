@@ -1,4 +1,4 @@
-# ADPList to Senja Testimonial Converter
+# ADPList Review to Senja Testimonial Converter
 
 This project automates the process of fetching reviews for an ADPList mentor and converting them into testimonials on Senja.
 

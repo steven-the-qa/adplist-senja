@@ -1,0 +1,19 @@
+{
+  "name": "adplist-senja",
+  "version": "1.0.0",
+  "description": "Convert ADPList reviews into Senja testimonials",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steven-the-qa/adplist-senja.git"
+  },
+  "author": "Steven Boutcher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/steven-the-qa/adplist-senja/issues"
+  },
+  "homepage": "https://github.com/steven-the-qa/adplist-senja#readme"
+}

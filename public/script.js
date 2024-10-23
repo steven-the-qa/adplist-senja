@@ -1,49 +1,69 @@
 let userId = '';
+let adpListReviews = [];
 
 function submitUserId() {
-    userId = document.getElementById('userId').value;
-    if (userId) {
-        document.getElementById('apiKeyModal').style.display = 'block';
-    } else {
-        alert('Please enter a User ID');
+    const userId = document.getElementById('userId').value;
+    const responseDiv = document.getElementById('response');
+    const clearButton = document.getElementById('clearButton');
+
+    if (!userId) {
+        responseDiv.textContent = 'Please enter a User ID';
+        return;
     }
+
+    fetch('/.netlify/functions/fetchReviews', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        adpListReviews = data; // Store the reviews for later use
+        responseDiv.textContent = JSON.stringify(data, null, 2);
+        clearButton.style.display = 'inline';
+    })
+    .catch(error => {
+        responseDiv.textContent = `Error: ${error.message}`;
+        clearButton.style.display = 'inline';
+    });
 }
 
 function submitApiKey() {
-    const apiKey = document.getElementById('apiKey').value;
-    if (apiKey) {
-        const submitButton = document.querySelector('.modal-content button');
-        submitButton.disabled = true;
-        submitButton.textContent = 'Loading...';
+    const senjaApiKey = document.getElementById('senjaApiKey').value;
+    const responseDiv = document.getElementById('response');
+    const clearButton = document.getElementById('clearButton');
 
-        fetch('/api/review', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId, apiKey }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-            document.getElementById('clearButton').style.display = 'block';
-            document.getElementById('apiKeyModal').style.display = 'none';
-        })
-        .catch(error => {
-            alert('Error: ' + error.message);
-        })
-        .finally(() => {
-            submitButton.disabled = false;
-            submitButton.textContent = 'Submit';
-        });
-    } else {
-        alert('Please enter an API Key');
+    if (!senjaApiKey) {
+        responseDiv.textContent = 'Please enter your Senja API Key';
+        return;
     }
+
+    if (adpListReviews.length === 0) {
+        responseDiv.textContent = 'Please fetch ADPList reviews first';
+        return;
+    }
+
+    fetch('/.netlify/functions/createTestimonials', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ senjaApiKey, adpListReviews }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        responseDiv.textContent = JSON.stringify(data, null, 2);
+        clearButton.style.display = 'inline';
+    })
+    .catch(error => {
+        responseDiv.textContent = `Error: ${error.message}`;
+        clearButton.style.display = 'inline';
+    });
 }
 
 function clearResponse() {
     document.getElementById('response').textContent = '';
     document.getElementById('clearButton').style.display = 'none';
-    document.getElementById('userId').value = '';
-    document.getElementById('apiKey').value = '';
 }

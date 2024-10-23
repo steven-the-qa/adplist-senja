@@ -11,49 +11,28 @@
             margin: 0 auto;
             padding: 20px;
         }
+        input, button {
+            margin: 10px 0;
+        }
         #response {
             white-space: pre-wrap;
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 300px;
         }
     </style>
 </head>
 <body>
     <h1>ADPList Review Service</h1>
-    <div id="userIdForm">
+    <div>
         <label for="userId">User ID:</label>
         <input type="text" id="userId" required>
-        <button onclick="submitUserId()">Submit</button>
+        <button onclick="submitUserId()">Fetch Reviews</button>
+    </div>
+    <div>
+        <label for="senjaApiKey">Senja API Key:</label>
+        <input type="password" id="senjaApiKey" required>
+        <button onclick="submitApiKey()">Create Testimonials</button>
     </div>
     <div id="response"></div>
-    <button onclick="clearResponse()" style="display: none;" id="clearButton">Clear Response</button>
-
-    <div id="apiKeyModal" class="modal">
-        <div class="modal-content">
-            <h2>Enter Senja API Key</h2>
-            <input type="password" id="apiKey" required>
-            <button onclick="submitApiKey()">Submit</button>
-        </div>
-    </div>
-
+    <button onclick="clearResponse()" style="display:none;" id="clearButton">Clear Response</button>
     <script src="script.js"></script>
 </body>
 </html>

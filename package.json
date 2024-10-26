@@ -4,7 +4,7 @@
   "description": "Convert ADPList reviews into Senja testimonials",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && cp -r public dist/",
+    "build": "tsc",
     "dev": "netlify dev"
   },
   "dependencies": {

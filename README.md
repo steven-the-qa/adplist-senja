@@ -2,7 +2,12 @@
 
 Convert your ADPList reviews into Senja testimonials.
 
-![App Preview](/public/images/app_preview.png)
+![App Preview](/public/assets/app_preview.png)
+
+## Demo
+
+![App Demo](/public/assets/mentor_proof_demo.mov)
+
 ## Where to find it
 
 https://mentor-proof.netlify.app/
@@ -19,7 +24,7 @@ https://mentor-proof.netlify.app/
 - Your Senja API key (requires a [Pro plan](https://senja.io/pricing))
    - Find it in your Senja account under (Automate > API)[https://app.senja.io/automations]
 
-![Senja API Key Location](/public/images/senja_api_key_location.png)
+![Senja API Key Location](/public/assets/senja_api_key_location.png)
 
 ## Local Development
 

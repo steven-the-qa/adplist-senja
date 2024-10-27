@@ -1,44 +1,44 @@
+let userId: string | null = null;
 let adpListReviews: any[] = [];
 
-function submitUserId() {
-    const userIdInput = document.getElementById('userId') as HTMLInputElement;
+async function submitProfileUrl() {
+    const profileUrlInput = document.getElementById('profileUrl') as HTMLInputElement;
     const responseDiv = document.getElementById('response') as HTMLDivElement;
     const clearButton = document.getElementById('clearButton') as HTMLButtonElement;
-    if (!userIdInput.value) {
+    if (!profileUrlInput.value) {
         if (responseDiv) {
-            responseDiv.textContent = 'Please enter your User ID';
+            responseDiv.textContent = 'Please enter your ADPList Mentor Profile URL\n\nExample: https://adplist.org/mentors/steven-boutcher';
         }
         return;
     }
 
-    fetch('/.netlify/functions/fetchReviews', {
+    const userIdResponse = await fetch(`/.netlify/functions/fetchUser?profileUrl=${profileUrlInput.value}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    const userIdData = await userIdResponse.json();
+    userId = userIdData.data.legacyId;
+
+    const reviewsResponse = await fetch('/.netlify/functions/fetchReviews', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: userIdInput.value }),
+        body: JSON.stringify({ userId }),
     })
-    .then(response => response.json())
-    .then(data => {
-        adpListReviews = data; // Store the reviews for later use
-        if (responseDiv) {
-            responseDiv.textContent = JSON.stringify(data, null, 2);
-        }
+    const reviewsData = await reviewsResponse.json();
+    adpListReviews = reviewsData; // Store the reviews for later use
+    if (responseDiv) {
+        responseDiv.textContent = JSON.stringify(reviewsData, null, 2);
+    }
         if (clearButton) {
             clearButton.style.display = 'inline';
-        }
-    })
-    .catch(error => {
-        if (responseDiv) {
-            responseDiv.textContent = `Error: script.js: ${error.message}`;
-        }
-        if (clearButton) {
-            clearButton.style.display = 'inline';
-        }
-    });
+    }
 }
 
-function submitApiKey() {
+async function submitApiKey() {
     const senjaApiKeyInput = document.getElementById('senjaApiKey') as HTMLInputElement;
     const responseDiv = document.getElementById('response') as HTMLDivElement;
     const clearButton = document.getElementById('clearButton') as HTMLButtonElement;
@@ -55,31 +55,22 @@ function submitApiKey() {
         return;
     }
 
-    fetch('/.netlify/functions/createTestimonials', {
+    const testimonialsResponse = await fetch('/.netlify/functions/createTestimonials', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ senjaApiKey: senjaApiKeyInput.value, adpListReviews }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (responseDiv) {
-            responseDiv.textContent = JSON.stringify(data, null, 2);
+    const testimonialsData = await testimonialsResponse.json();
+    if (responseDiv) {
+        responseDiv.textContent = JSON.stringify(testimonialsData, null, 2);
         }
         if (clearButton) {
-            clearButton.style.display = 'inline';
-        }
-    })
-    .catch(error => {
-        if (responseDiv) {
-            responseDiv.textContent = `Error: ${error.message}`;
-        }
-        if (clearButton) {
-            clearButton.style.display = 'inline';
-        }
-    });
+        clearButton.style.display = 'inline';
+    }
 }
+    
 function clearResponse() {
     const responseDiv = document.getElementById('response') as HTMLDivElement;
     const clearButton = document.getElementById('clearButton') as HTMLButtonElement;

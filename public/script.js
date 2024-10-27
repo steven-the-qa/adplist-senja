@@ -1,30 +1,33 @@
 "use strict";
+let userId = null;
 let adpListReviews = [];
-function submitUserId() {
-    const userIdInput = document.getElementById('userId');
+function submitProfileUrl() {
+    const profileUrlInput = document.getElementById('profileUrl');
     const responseDiv = document.getElementById('response');
     const clearButton = document.getElementById('clearButton');
-
-    if (!userIdInput) {
-        console.error('User ID input element not found');
+    if (!profileUrlInput.value) {
         if (responseDiv) {
-            responseDiv.textContent = 'Error: User ID input not found';
+            responseDiv.textContent = 'Please enter your ADPList Mentor Profile URL\n\nExample: https://adplist.org/mentors/steven-boutcher';
         }
         return;
     }
-
-    if (!userIdInput.value) {
-        if (responseDiv) {
-            responseDiv.textContent = 'Please enter your User ID';
-        }
-        return;
-    }
+    fetch(`/.netlify/functions/fetchUser?profileUrl=${profileUrlInput.value}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+        console.log(data.data.legacyId);
+        userId = data.data.legacyId;
+    });
     fetch('/.netlify/functions/fetchReviews', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: userIdInput.value }),
+        body: JSON.stringify({ userId }),
     })
         .then(response => response.json())
         .then(data => {

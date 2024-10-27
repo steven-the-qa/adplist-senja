@@ -9,7 +9,7 @@ export const handler: Handler = async (event) => {
   const { userId } = JSON.parse(event.body || '{}')
 
   if (!userId) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'User ID is required' }) }
+    return { statusCode: 400, body: JSON.stringify({ error: 'User could not be found with provided ADPList Profile URL' }) }
   }
 
   try {

@@ -1,69 +1,98 @@
-let userId = '';
+"use strict";
 let adpListReviews = [];
-
 function submitUserId() {
-    const userId = document.getElementById('userId').value;
+    const userIdInput = document.getElementById('userId');
     const responseDiv = document.getElementById('response');
     const clearButton = document.getElementById('clearButton');
 
-    if (!userId) {
-        responseDiv.textContent = 'Please enter a User ID';
+    if (!userIdInput) {
+        console.error('User ID input element not found');
+        if (responseDiv) {
+            responseDiv.textContent = 'Error: User ID input not found';
+        }
         return;
     }
 
+    if (!userIdInput.value) {
+        if (responseDiv) {
+            responseDiv.textContent = 'Please enter your User ID';
+        }
+        return;
+    }
     fetch('/.netlify/functions/fetchReviews', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }),
+        body: JSON.stringify({ userId: userIdInput.value }),
     })
-    .then(response => response.json())
-    .then(data => {
+        .then(response => response.json())
+        .then(data => {
         adpListReviews = data; // Store the reviews for later use
-        responseDiv.textContent = JSON.stringify(data, null, 2);
-        clearButton.style.display = 'inline';
+        if (responseDiv) {
+            responseDiv.textContent = JSON.stringify(data, null, 2);
+        }
+        if (clearButton) {
+            clearButton.style.display = 'inline';
+        }
     })
-    .catch(error => {
-        responseDiv.textContent = `Error: ${error.message}`;
-        clearButton.style.display = 'inline';
+        .catch(error => {
+        if (responseDiv) {
+            responseDiv.textContent = `Error: script.js: ${error.message}`;
+        }
+        if (clearButton) {
+            clearButton.style.display = 'inline';
+        }
     });
 }
-
 function submitApiKey() {
-    const senjaApiKey = document.getElementById('senjaApiKey').value;
+    const senjaApiKeyInput = document.getElementById('senjaApiKey');
     const responseDiv = document.getElementById('response');
     const clearButton = document.getElementById('clearButton');
-
-    if (!senjaApiKey) {
-        responseDiv.textContent = 'Please enter your Senja API Key';
+    if (!senjaApiKeyInput.value) {
+        if (responseDiv) {
+            responseDiv.textContent = 'Please enter your Senja API Key';
+        }
         return;
     }
-
     if (adpListReviews.length === 0) {
-        responseDiv.textContent = 'Please fetch ADPList reviews first';
+        if (responseDiv) {
+            responseDiv.textContent = 'Please fetch ADPList reviews first';
+        }
         return;
     }
-
     fetch('/.netlify/functions/createTestimonials', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ senjaApiKey, adpListReviews }),
+        body: JSON.stringify({ senjaApiKey: senjaApiKeyInput.value, adpListReviews }),
     })
-    .then(response => response.json())
-    .then(data => {
-        responseDiv.textContent = JSON.stringify(data, null, 2);
-        clearButton.style.display = 'inline';
+        .then(response => response.json())
+        .then(data => {
+        if (responseDiv) {
+            responseDiv.textContent = JSON.stringify(data, null, 2);
+        }
+        if (clearButton) {
+            clearButton.style.display = 'inline';
+        }
     })
-    .catch(error => {
-        responseDiv.textContent = `Error: ${error.message}`;
-        clearButton.style.display = 'inline';
+        .catch(error => {
+        if (responseDiv) {
+            responseDiv.textContent = `Error: ${error.message}`;
+        }
+        if (clearButton) {
+            clearButton.style.display = 'inline';
+        }
     });
 }
-
 function clearResponse() {
-    document.getElementById('response').textContent = '';
-    document.getElementById('clearButton').style.display = 'none';
+    const responseDiv = document.getElementById('response');
+    const clearButton = document.getElementById('clearButton');
+    if (responseDiv) {
+        responseDiv.textContent = '';
+    }
+    if (clearButton) {
+        clearButton.style.display = 'none';
+    }
 }

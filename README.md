@@ -2,11 +2,9 @@
 
 Convert your ADPList reviews into Senja testimonials.
 
-![App Preview](/public/assets/app_preview.png)
-
 ## Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5YFUj-qyAO4?si=yKFfrqCD79vVaxzR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![Mentor Proof app demo](/public/assets/app_preview.png)](https://www.youtube.com/watch?v=5YFUj-qyAO4)
 
 ## Where to find it
 

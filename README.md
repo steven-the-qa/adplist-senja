@@ -2,6 +2,7 @@
 
 Convert your ADPList reviews into Senja testimonials.
 
+![App Preview](/public/images/app_preview.png)
 ## Where to find it
 
 https://mentor-proof.netlify.app/

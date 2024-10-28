@@ -20,7 +20,7 @@ https://mentor-proof.netlify.app/
 - Your ADPList Mentor Profile URL
    - This is your public profile page on ADPList. For example: https://adplist.org/mentors/steven-boutcher
 - Your Senja API key (requires a [Pro plan](https://senja.io/pricing))
-   - Find it in your Senja account under (Automate > API)[https://app.senja.io/automations]
+   - Find it in your Senja account under [Automate > API](https://app.senja.io/automations)
 
 ![Senja API Key Location](/public/assets/senja_api_key_location.png)
 
